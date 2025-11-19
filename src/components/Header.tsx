@@ -1,12 +1,31 @@
+import { useState } from "react";
 import React from "react";
 
 
 export default function Header() {
+    const [currentPage, setCurrentPage] = useState<"home" | "detail" | "gallery">("home");
+    const [selectedArtwork, setSelectedArtwork] = useState(null);
+
+    function handleSelectArtwork(artwork: Artwork) {
+        setSelectedArtwork(artwork);
+        setCurrentPage("detail");
+    }
+
+    function goHome() {
+        setCurrentPage("home");
+    }
 
     return(
-        <>
-        <h1>Art Institute of Chicago Explorer</h1>
-        <p>Und sie träumt von Chicago</p>
+        <> 
+            <header>
+            <button onClick={goHome}> 
+            <h1>Art Institute Explorer</h1>
+            </button>
+            <div>
+            <button onClick={goHome}>Home</button>
+            <button onClick={() => setCurrentPage("gallery")}>Gallery</button>
+            </div>
+            </header>
         </>
     );
 }

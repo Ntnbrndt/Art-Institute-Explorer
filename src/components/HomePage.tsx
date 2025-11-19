@@ -1,15 +1,23 @@
-
 import { useEffect, useState } from "react";
-import ArtWork from "./ArtWork";
+import ArtworkCard from "./ArtWorkCard";
+import type { Artwork } from "../artworkSchema";
 
-export default function HomePage({ onSelectArtwork }) {
+type HomePageProps = {
+  onSelectArtwork: (artwork: Artwork) => void;
+};
+
+
+export default function HomePage({ onSelectArtwork }: HomePageProps) {
   const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
     async function fetchArtworks() {
+      const randomPage = Math.floor(Math.random() * 100) + 1;
+
       const res = await fetch(
-        "https://api.artic.edu/api/v1/artworks?limit=12&fields=id,title,date_display,image_id,thumbnail"
+          `https://api.artic.edu/api/v1/artworks?page=${randomPage}&limit=25&fields=id,title,date_display,image_id,thumbnail,artist_display,place_of_origin,description,short_description,dimensions,artist_title`
       );
+
       const json = await res.json();
 
       const mapped = json.data.map(a => ({
@@ -21,15 +29,15 @@ export default function HomePage({ onSelectArtwork }) {
 
       setArtworks(mapped);
     }
-
     fetchArtworks();
   }, []);
 
   return (
     <div className="cards-grid">
       {artworks.map(a => (
-        <ArtWork key={a.id} artwork={a} onClick={() => onSelectArtwork(a)} />
+        <ArtworkCard key={a.id} artwork={a} onClick={() => onSelectArtwork(a)} />
       ))}
     </div>
   );
 }
+

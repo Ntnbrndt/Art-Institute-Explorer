@@ -1,5 +1,24 @@
 import { z } from "zod";
 
+export const ArtworkSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  artist_title: z.string().nullable(),
+  artist_display: z.string(),
+  image_id: z.string().nullable(),
+  date_display: z.string(),
+});
+
+export type Artwork = z.infer<typeof ArtworkSchema>;
+
+
+
+<img src={artwork.imageUrl} alt={artwork.title} />
+
+<p>{artwork.thumbnail?.alt_text || "No description available."}</p>
+</button>
+);
+/*
 const ThumbnailSchema = z.object({
   lqip: z.string(),
   width: z.number(),
@@ -152,5 +171,4 @@ export const ArtworkResponseSchema = z.object({
   config: ConfigSchema,
 });
 
-// Export TypeScript type
-export type ArtworkResponse = z.infer<typeof ArtworkResponseSchema>;
+*/
